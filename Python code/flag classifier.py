@@ -8,7 +8,7 @@ Created on Thu Sep  3 08:31:58 2020
 import torchvision
 from torchvision import transforms
 
-train_data_path = "D:\Blander Flag\Flag-Classifiction\Training_Data\America"
+train_data_path = "D:\Blander Flag\Flag-Classifiction\Training_Data"
 
 transforms = transforms.Compose([
         transforms.Resize(64),
@@ -19,11 +19,11 @@ transforms = transforms.Compose([
 
 train_data = torchvision.datasets.ImageFolder(root=train_data_path,transform=transforms)
 
-val_data_path = "D:\Blander Flag\Flag-Classifiction\Validation_Data\America"
+val_data_path = "D:\Blander Flag\Flag-Classifiction\Validation_Data"
 val_data = torchvision.datasets.ImageFolder(root=val_data_path,
                                             transform=transforms)
 
-test_data_path = "D:\Blander Flag\Flag-Classifiction\Test_Data\America"
+test_data_path = "D:\Blander Flag\Flag-Classifiction\Test_Data"
 test_data = torchvision.datasets.ImageFolder(root=test_data_path,
                                              transform=transforms)
 
@@ -117,6 +117,21 @@ def train(model, optimizer, loss_fn, train_loader, val_loader,
         
 train(simplenet, optimizer, torch.nn.CrossEntropyLoss(),
       train_data_loader, test_data_loader,device)
+
+
+from PIL import Image
+
+labels = ['America','Canada','Delaware']
+
+img = Image.open(FILENAME)
+img = transforms(img)
+img = img.unsqueeze(0)
+
+prediction = simplenet(img)
+prediction = prediction.argmax()
+print(labels[prediction])
+
+
 
 
 
