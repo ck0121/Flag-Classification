@@ -59,6 +59,7 @@ def forward(self):
     x = F.relu(self.fc2(x))
     x = self.fc3(x)
     return x
+    return x
     
 for epoch in range(epochs):
     for batch in train_loader:
