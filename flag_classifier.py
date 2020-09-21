@@ -33,7 +33,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES=True
  
 
 def check_image(path):
-
+    print(path);
     try:
 
         im = Image.open(path)
@@ -87,7 +87,7 @@ batch_size=64
  
 
 train_data_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size)
-
+print("***** total number of images in 'Training_Data is  %4d' % len(train_data)")
 val_data_loader  = torch.utils.data.DataLoader(val_data, batch_size=batch_size)
 
 test_data_loader  = torch.utils.data.DataLoader(test_data, batch_size=batch_size)
@@ -110,7 +110,7 @@ class SimpleNet(nn.Module):
 
         self.fc2 = nn.Linear(84, 50)
 
-        self.fc3 = nn.Linear(50,2)
+        self.fc3 = nn.Linear(50,3)
 
    
 
@@ -254,7 +254,7 @@ labels = ['America','Canada']
 
  
 
-img = Image.open("./val/fish/100_1422.JPG")  # ????????????????????????????????
+img = Image.open("./Validation_Data/America/0288.JPG")  # ????????????????????????????????
 
  
 
