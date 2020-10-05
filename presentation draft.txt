@@ -1,0 +1,22 @@
+dataset:
+train set 70%
+test set  15%
+validation set  15%
+further thinking: different shape of flag to train and classify (full wind, half wind, low wind)
+ 
+
+
+blender: physical simulation
+flag + HDRI + animation
+further thinking: different strength of the wind
+
+train algorithm
+Pytorch and use Neural network
+Pytorch and use Convolutional neural network (CNN)
+
+new method: Detectron2
+
+about Detectron,
+youtube tutorial
+register dataset: laballing
+
