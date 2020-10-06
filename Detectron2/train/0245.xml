@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Canada</folder>
+	<filename>0245.jpg</filename>
+	<path>D:\Blander Flag\Flag-Classification\Data_Sets\Validation_Data\Canada\0245.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>400</width>
+		<height>300</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Canada flag</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>151</xmin>
+			<ymin>122</ymin>
+			<xmax>252</xmax>
+			<ymax>181</ymax>
+		</bndbox>
+	</object>
+</annotation>
