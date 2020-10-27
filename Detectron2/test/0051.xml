@@ -1,0 +1,26 @@
+<annotation>
+	<folder>test</folder>
+	<filename>0051.jpg</filename>
+	<path>D:\Blander Flag\Flag-Classification\Detectron2\test\0051.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>400</width>
+		<height>300</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Canada flag</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>113</xmin>
+			<ymin>99</ymin>
+			<xmax>228</xmax>
+			<ymax>288</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,50 @@
+<annotation>
+	<folder>new_train</folder>
+	<filename>3_flags_0249.png</filename>
+	<path>D:\Blander Flag\Flag-Classification\Detectron2\new_train\3_flags_0249.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>400</width>
+		<height>300</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>America flag</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>241</xmin>
+			<ymin>105</ymin>
+			<xmax>393</xmax>
+			<ymax>189</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Malaysia flag</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>128</xmin>
+			<ymin>72</ymin>
+			<xmax>263</xmax>
+			<ymax>183</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Liberia flag</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>7</xmin>
+			<ymin>109</ymin>
+			<xmax>126</xmax>
+			<ymax>186</ymax>
+		</bndbox>
+	</object>
+</annotation>

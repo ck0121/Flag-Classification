@@ -1,7 +1,7 @@
 <annotation>
-	<folder>America</folder>
+	<folder>train</folder>
 	<filename>0362.jpg</filename>
-	<path>D:\Blander Flag\Flag-Classification\Data_Sets\Validation_Data\America\0362.jpg</path>
+	<path>D:\Blander Flag\Flag-Classification\Detectron2\train\0362.jpg</path>
 	<source>
 		<database>Unknown</database>
 	</source>
@@ -12,7 +12,7 @@
 	</size>
 	<segmented>0</segmented>
 	<object>
-		<name>American Flag</name>
+		<name>America flag</name>
 		<pose>Unspecified</pose>
 		<truncated>0</truncated>
 		<difficult>0</difficult>
