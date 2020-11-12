@@ -4,6 +4,7 @@ import numpy as np
 
 def getContours(img):
     contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
+    xmin, ymin, xmax, ymax = 500, 500, 0, 0
     for cnt in contours:
         area = cv2.contourArea(cnt)
         #print(area)
@@ -17,19 +18,21 @@ def getContours(img):
             #print(len(approx))
             objCor = len(approx)
             x, y, w, h = cv2.boundingRect(approx)
+            #print (x,y,w,h)
             cv2.rectangle(imgContour,(x,y),(x+w,y+h),(0,255,0),2)
             print(x,y,x+w,y+h)
-            Xmin, Ymin, Xmax, Ymax = 0, 0, 0, 0
-            if Xmin < x:
-                Xmin = x
-            if Ymin < y:
-                Ymin = y
-            if Xmax > x+w:
-                Xmax = x+w
-            if Ymax > y+h:
-                Ymax = y+h
 
-    cv2.rectangle(imgContour,(Xmin,Ymin),(Xmax,Ymax),(255,0,0),2)
+            if xmin > x:
+                xmin = x
+            if ymin > y:
+                ymin = y
+            if xmax < x+w:
+                xmax = x+w
+            if ymax < y+h:
+                ymax = y+h
+    print(xmin, ymin, xmax, ymax)
+
+    cv2.rectangle(imgContour, (xmin, ymin),(xmax, ymax),(255,0,0),2)
 
 
 path = 'Resources/Ahw0247.png'
