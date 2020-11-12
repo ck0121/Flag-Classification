@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-path = 'Resources/Ahw0238.png'
+path = 'Resources/Ahw0247.png'
 img = cv2.imread(path)
 imgContour = img.copy()
 

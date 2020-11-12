@@ -99,7 +99,7 @@ def stackImages(scale, imgArray):
 
 
 
-path = 'Resources/Ahw0238.png'
+path = 'Resources/Chw0003.png'
 img = cv2.imread(path)
 imgContour = img.copy()
 
