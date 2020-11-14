@@ -10,9 +10,11 @@ def xml_to_csv(path):
         tree = ET.parse(xml_file)
         root = tree.getroot()
         for member in root.findall('object'):
+            (w,h,d) = root.find("size")
             value = (root.find('filename').text,
-                     int(root.find('size')[0].text),
-                     int(root.find('size')[1].text),
+
+                     int (w.text),
+                     int (h.text),
                      member[0].text,
                      int(member[4][0].text),
                      int(member[4][1].text),

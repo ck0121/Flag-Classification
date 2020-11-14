@@ -35,7 +35,7 @@ def getContours(img):
     cv2.rectangle(imgContour, (xmin, ymin),(xmax, ymax),(255,0,0),2)
 
 
-path = 'Resources/Ahw0247.png'
+path = 'Resources/Chw0003.png'
 img = cv2.imread(path)
 imgContour = img.copy()
 
@@ -44,4 +44,5 @@ imgBlur = cv2.GaussianBlur(imgGray,(5,5),1)
 imgCanny = cv2.Canny(imgBlur,50,50)
 getContours(imgCanny)
 cv2.imshow("Image",imgContour)
+cv2.imshow("Canny",imgCanny)
 cv2.waitKey(0)
