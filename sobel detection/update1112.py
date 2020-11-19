@@ -35,7 +35,7 @@ def getContours(img):
     cv2.rectangle(imgContour, (xmin, ymin),(xmax, ymax),(255,0,0),2)
 
 
-path = 'Resources/Chw0003.png'
+path = 'Resources/Ahw0247.png'
 img = cv2.imread(path)
 imgContour = img.copy()
 
