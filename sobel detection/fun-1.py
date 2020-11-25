@@ -11,6 +11,7 @@ imgSrcPyg = None    # source image converted to PyGame
 imgOut = None       # generated image (from source) using OpenCV routine
 imgOutPyg = None    # pygame-version of imgOut (for display only)
 imgOutpyg2 = None   # pygame-version of imgOutPyg of box
+a = []
 
 # 'global' variables used by this app
 scrW = 1240 # display width
@@ -52,7 +53,7 @@ def game_loop():
     button('Load', 150, 450, 100, 50, C_green, C_b_green, load_img)
     button('Contours', 300, 450, 100, 50, C_green, C_b_green, Bounding)
     button('Bounding', 450, 450, 100, 50, C_green, C_b_green, getContours)
-    button('Gen XML', 600, 450, 100, 50, C_green, C_b_green, gen_xml)
+    button('Gen XML', 600, 450, 100, 50, C_green, C_b_green, GenerateXML)
     draw_image(imgSrcPyg, 10, 10)
     draw_image(imgOutPyg2, 420, 10)
     draw_image(imgOutPyg, 830, 10)
@@ -90,7 +91,7 @@ def button(msg, x, y, w, h, ic, ac, action=None):
 
 
 def getContours():
-  global imgOutPyg
+  global imgOutPyg, a
   imgGray = cv.cvtColor(imgSrc, cv.COLOR_BGR2GRAY)
   imgBlur = cv.GaussianBlur(imgGray, (5, 5), 1)
   imgCanny = cv.Canny(imgBlur, 50, 50)
@@ -122,9 +123,11 @@ def getContours():
   print(xmin, ymin, xmax, ymax)
   cv.rectangle(imgSrc, (xmin, ymin),(xmax, ymax),(255,0,0),2)
   cv.imwrite('Resources/002_new.png', imgSrc)
+  a = [xmin,ymin,xmax,ymax]
+  return a
 
 def Bounding():
-  global imgOutPyg2
+  global imgOutPyg2, a
   imgGray = cv.cvtColor(imgSrc, cv.COLOR_BGR2GRAY)
   imgBlur = cv.GaussianBlur(imgGray, (5, 5), 1)
   imgCanny = cv.Canny(imgBlur, 50, 50)
@@ -153,23 +156,92 @@ def Bounding():
       if ymin > y:    ymin = y
       if xmax < x+w:  xmax = x+w
       if ymax < y+h:  ymax = y+h
-  print(xmin, ymin, xmax, ymax)
+
   cv.rectangle(imgContour, (xmin, ymin),(xmax, ymax),(255,0,0),2)
   cv.imwrite('Resources/002_new.png', imgContour)
+  a = [xmin,ymin,xmax,ymax]
 
-  return xmin,xmax,ymin,ymax
+  print('xmin,ymin,xmax,ymax=',a)
+  return a
+def GenerateXML(filename):
+    global a
+    a = []
+    # 在内存中创建一个空的文档
+    doc = xml.dom.minidom.Document()
+    # 创建一个根节点Managers对象
+    root = doc.createElement('annotation')
+
+    # 将根节点添加到文档对象中
+    doc.appendChild(root)
+
+    # 根节点Annotation和子节点Folder,Filename,path
+    nodeFolder = doc.createElement("folder")
+    nodeFolder.appendChild(doc.createTextNode("Folder Name"))
+    nodeFilename = doc.createElement("filename")
+    nodeFilename.appendChild(doc.createTextNode("File Name"))
+    nodePath = doc.createElement("path")
+    nodePath.appendChild(doc.createTextNode("Path"))
+
+    # 父节点Size和子节点Width,Height
+    nodeSize = doc.createElement("Size")
+    nodeWidth = doc.createElement("Width")
+    nodeWidth.appendChild(doc.createTextNode('400'))
+    nodeHeight = doc.createElement("Height")
+    nodeHeight.appendChild(doc.createTextNode('300'))
+
+    # 父节点Object和子节点Name(label),Bndbox
+    nodeObject = doc.createElement("object")
+    nodeName = doc.createElement("name")
+    nodeName.appendChild(doc.createTextNode('label'))
+
+    # 父节点Bndbox和子节点Xmin,Ymin,Xmax,Ymax
+    nodeBndbox = doc.createElement("bndbox")
+    nodeXmin = doc.createElement("xmin")
+    nodeXmin.appendChild(doc.createTextNode(str(a[0])))
+    nodeYmin = doc.createElement("ymin")
+    nodeYmin.appendChild(doc.createTextNode(str(a[1])))
+    nodeXmax = doc.createElement("xmax")
+    nodeXmax.appendChild(doc.createTextNode(str(a[2])))
+    nodeYmax = doc.createElement("ymax")
+    nodeYmax.appendChild(doc.createTextNode(str(a[3])))
+
+    # 将子节点添加到父节点下
+    nodeSize.appendChild(nodeWidth)
+    nodeSize.appendChild(nodeHeight)
+
+    nodeObject.appendChild(nodeName)
+    nodeObject.appendChild(nodeBndbox)
+
+    nodeBndbox.appendChild(nodeXmin)
+    nodeBndbox.appendChild(nodeYmin)
+    nodeBndbox.appendChild(nodeXmax)
+    nodeBndbox.appendChild(nodeYmax)
+
+    # 将父节点添加到根节点下
+    root.appendChild(nodeFolder)
+    root.appendChild(nodeFilename)
+    root.appendChild(nodePath)
+    root.appendChild(nodeSize)
+    root.appendChild(nodeObject)
+
+    # 开始写xml文档
+    fp = open(filename, 'w')
+    doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
 
 
 
 
-def gen_xml():
-  GenerateXML(r'Resources\Xml12345.xml')
+# def gen_xml():
+#   global a
+#
+#   GenerateXML(r'Resources\Xml12345.xml')
 
 
 #--------------------------------------------------------------------
 
 pygame.init()
 load_img()
+GenerateXML(r'D:\Blander Flag\Flag-Classification\sobel detection\Resources\Xml12.xml')
 game_loop()
 pygame.quit()
 quit()

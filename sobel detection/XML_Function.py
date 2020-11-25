@@ -1,6 +1,8 @@
 import xml.dom.minidom
 
 def GenerateXML(filename):
+    global a
+    a = []
     # 在内存中创建一个空的文档
     doc = xml.dom.minidom.Document()
     # 创建一个根节点Managers对象
@@ -32,13 +34,13 @@ def GenerateXML(filename):
     # 父节点Bndbox和子节点Xmin,Ymin,Xmax,Ymax
     nodeBndbox = doc.createElement("bndbox")
     nodeXmin = doc.createElement("xmin")
-    nodeXmin.appendChild(doc.createTextNode('167'))
+    nodeXmin.appendChild(doc.createTextNode(str(a)))
     nodeYmin = doc.createElement("xmin")
-    nodeYmin.appendChild(doc.createTextNode('46'))
+    nodeYmin.appendChild(doc.createTextNode(str(a)))
     nodeXmax = doc.createElement("xmin")
-    nodeXmax.appendChild(doc.createTextNode('337'))
+    nodeXmax.appendChild(doc.createTextNode(str(a)))
     nodeYmax = doc.createElement("xmin")
-    nodeYmax.appendChild(doc.createTextNode('170'))
+    nodeYmax.appendChild(doc.createTextNode(str(a)))
 
     # 将子节点添加到父节点下
     nodeSize.appendChild(nodeWidth)
