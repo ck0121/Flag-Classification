@@ -40,19 +40,27 @@ def load_img():
 
 
 def game_loop():
-  quit = False
-  while not quit:
+  button_1 = button_create('Load', (150, 450, 100, 50), C_green, C_b_green, load_img)
+  button_2 = button_create('Contours', (300, 450, 100, 50), C_green, C_b_green, Bounding)
+  button_3 = button_create('Bounding', (450, 450, 100, 50), C_green, C_b_green, getContours)
+  button_4 = button_create('Gen XML', (600, 450, 100, 50), C_green, C_b_green, gen_xml)
+
+  quit = True
+  while quit:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
-        quit = True
-      elif event.type ==pygame.MOUSEBUTTONDOWN:
+        quit = False
+      button_check(button_1, event)
+      button_check(button_2, event)
+      button_check(button_3, event)
+      button_check(button_4, event)
 
-        break
     gameDisplay.fill(C_white)
-    button('Load', 150, 450, 100, 50, C_green, C_b_green, load_img)
-    button('Contours', 300, 450, 100, 50, C_green, C_b_green, Bounding)
-    button('Bounding', 450, 450, 100, 50, C_green, C_b_green, getContours)
-    button('Gen XML', 600, 450, 100, 50, C_green, C_b_green, gen_xml)
+
+    button_draw(gameDisplay, button_1)
+    button_draw(gameDisplay, button_2)
+    button_draw(gameDisplay, button_3)
+    button_draw(gameDisplay, button_4)
     draw_image(imgSrcPyg, 10, 10)
     draw_image(imgOutPyg2, 420, 10)
     draw_image(imgOutPyg, 830, 10)
@@ -70,19 +78,57 @@ def text_objects(text, font):
   return textSurface, textSurface.get_rect()
 
 
-def button(msg, x, y, w, h, ic, ac, action=None):
-  mouse = pygame.mouse.get_pos()
-  click = pygame.mouse.get_pressed()
-  if x + w > mouse[0] > x and y + h > mouse[1] > y:
-    pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
-    if click[0] ==1  and action != None:
-      action()
-  else:
-    pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
-  smallText = pygame.font.SysFont('comicsansms', 20)
-  textSurf, textRect = text_objects(msg, smallText)
-  textRect.center = (x + w / 2, y + h / 2)
-  gameDisplay.blit(textSurf, textRect)
+def button_create(text, rect, ic, ac, action=None):
+
+    font = pygame.font.Font(None, 20)
+
+    button_rect = pygame.Rect(rect)
+
+    text_button = font.render(text, True, C_black)
+    text_button_rect = text_button.get_rect(center=button_rect.center)
+
+    return [text_button, text_button_rect, button_rect, ic, ac, action, False]
+
+def button_check(info, event):
+
+    text, text_rect, rect, ic, ac, action, hover = info
+
+    if event.type ==pygame.MOUSEBUTTONDOWN:
+        # hover = True/False
+        info[-1] = rect.collidepoint(event.pos)
+
+    elif event.type == pygame.MOUSEBUTTONDOWN:
+        if hover and action:
+            action()
+
+def button_draw(gameDisplay, info):
+
+    text, text_rect, rect, ic, ac, action, hover = info
+
+    if hover:
+        color = ac
+    else:
+        color = ic
+
+    pygame.draw.rect(gameDisplay, color, rect)
+    gameDisplay.blit(text, text_rect)
+
+
+
+
+# def button(msg, x, y, w, h, ic, ac, action=None):
+#   mouse = pygame.mouse.get_pos()
+#   click = pygame.mouse.get_pressed()
+#   if x + w > mouse[0] > x and y + h > mouse[1] > y:
+#     pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
+#     if click[0] ==1  and action != None:
+#       action()
+#   else:
+#     pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+#   smallText = pygame.font.SysFont('comicsansms', 20)
+#   textSurf, textRect = text_objects(msg, smallText)
+#   textRect.center = (x + w / 2, y + h / 2)
+#   gameDisplay.blit(textSurf, textRect)
 
 
 
@@ -157,7 +203,7 @@ def Bounding():
   cv.rectangle(imgContour, (xmin, ymin),(xmax, ymax),(255,0,0),2)
   cv.imwrite('Resources/002_new.png', imgContour)
 
-  return xmin,xmax,ymin,ymax
+
 
 
 
@@ -172,4 +218,4 @@ pygame.init()
 load_img()
 game_loop()
 pygame.quit()
-quit()
+
