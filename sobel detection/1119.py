@@ -33,7 +33,7 @@ pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 majorImg = pygame.image.load('Ahw0247.png')
 
-def getContours(img):
+def getContours():
     contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
     xmin, ymin, xmax, ymax = 500, 500, 0, 0
     for cnt in contours:
@@ -143,7 +143,7 @@ def game_loop():
         screen.fill(white)
 
         screen.blit(majorImg, (x,y))
-        button("Load", 130, 450, 100, 50, green, bright_green, game_Contour)
+        button("Load", 130, 450, 100, 50, green, bright_green, getContours)
         button("Make", 270, 450, 100, 50, red, bright_red, quitgame)
         button("Mix", 410, 450, 100, 50, green, bright_green, game_loop)
         button("XML", 550, 450, 100, 50, red, bright_red, quitgame)
@@ -152,12 +152,19 @@ def game_loop():
 
     pygame.display.update()
     clock.tick(60)
+def game_load():
+    path = 'Resources/Ahw0247.png'
+    img = cv2.imread(path)
+    screen.blit()
+
+
+
+
 
 def game_Contour():
     x = 200
     y = 100
-    path = 'Resources/Ahw0247.png'
-    img = cv2.imread(path)
+
     imgContour = img.copy()
 
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -173,9 +180,9 @@ def game_Contour():
                 quit()
         screen.fill(white)
 
-        screen.blit(majorImg, (x,y))
-        button("Load", 130, 450, 100, 50, green, bright_green, game_Contour)
-        button("Make", 270, 450, 100, 50, red, bright_red, quitgame)
+        screen.blit(imgContour, (x,y))
+        button("Load", 130, 450, 100, 50, green, bright_green, game_load)
+        button("Make", 270, 450, 100, 50, red, bright_red, game_Contour)
         button("Mix", 410, 450, 100, 50, green, bright_green, game_loop)
         button("XML", 550, 450, 100, 50, red, bright_red, quitgame)
         pygame.display.update()
