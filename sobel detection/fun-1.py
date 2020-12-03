@@ -53,7 +53,7 @@ def game_loop():
     button('Load', 150, 450, 100, 50, C_green, C_b_green, load_img)
     button('Contours', 300, 450, 100, 50, C_green, C_b_green, Bounding)
     button('Bounding', 450, 450, 100, 50, C_green, C_b_green, getContours)
-    button('Gen XML', 600, 450, 100, 50, C_green, C_b_green, GenerateXML)
+    button('Gen XML', 600, 450, 100, 50, C_green, C_b_green, gen_xml)
     draw_image(imgSrcPyg, 10, 10)
     draw_image(imgOutPyg2, 420, 10)
     draw_image(imgOutPyg, 830, 10)
@@ -70,20 +70,32 @@ def text_objects(text, font):
   textSurface = font.render(text, True, C_black)
   return textSurface, textSurface.get_rect()
 
-
+clickProcessed = False
 def button(msg, x, y, w, h, ic, ac, action=None):
+  global clickProcessed
   mouse = pygame.mouse.get_pos()
-  click = pygame.mouse.get_pressed()
-  if x + w > mouse[0] > x and y + h > mouse[1] > y:
-    pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
-    if click[0] ==1  and action != None:
-      action()
+  #click = pygame.mouse.get_pressed()
+
+  (sL, sM, sR) = pygame.mouse.get_pressed(num_buttons=3)
+  if not clickProcessed and sL:
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+      print('hello')
+      clickProcessed = True
   else:
-    pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
-  smallText = pygame.font.SysFont('comicsansms', 20)
-  textSurf, textRect = text_objects(msg, smallText)
-  textRect.center = (x + w / 2, y + h / 2)
-  gameDisplay.blit(textSurf, textRect)
+    clickProcessed = False
+
+  # if click:
+  #   print('mouse clicked')
+  #   if x + w > mouse[0] > x and y + h > mouse[1] > y:
+  #     pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
+  #     if click[0] ==1  and action != None:
+  #       action()
+  #     else:
+  #       pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+  # smallText = pygame.font.SysFont('comicsansms', 20)
+  # textSurf, textRect = text_objects(msg, smallText)
+  # textRect.center = (x + w / 2, y + h / 2)
+  # gameDisplay.blit(textSurf, textRect)
 
 
 
@@ -163,78 +175,79 @@ def Bounding():
 
   print('xmin,ymin,xmax,ymax=',a)
   return a
-def GenerateXML(filename):
-    global a
-    a = []
-    # 在内存中创建一个空的文档
-    doc = xml.dom.minidom.Document()
-    # 创建一个根节点Managers对象
-    root = doc.createElement('annotation')
 
-    # 将根节点添加到文档对象中
-    doc.appendChild(root)
-
-    # 根节点Annotation和子节点Folder,Filename,path
-    nodeFolder = doc.createElement("folder")
-    nodeFolder.appendChild(doc.createTextNode("Folder Name"))
-    nodeFilename = doc.createElement("filename")
-    nodeFilename.appendChild(doc.createTextNode("File Name"))
-    nodePath = doc.createElement("path")
-    nodePath.appendChild(doc.createTextNode("Path"))
-
-    # 父节点Size和子节点Width,Height
-    nodeSize = doc.createElement("Size")
-    nodeWidth = doc.createElement("Width")
-    nodeWidth.appendChild(doc.createTextNode('400'))
-    nodeHeight = doc.createElement("Height")
-    nodeHeight.appendChild(doc.createTextNode('300'))
-
-    # 父节点Object和子节点Name(label),Bndbox
-    nodeObject = doc.createElement("object")
-    nodeName = doc.createElement("name")
-    nodeName.appendChild(doc.createTextNode('label'))
-
-    # 父节点Bndbox和子节点Xmin,Ymin,Xmax,Ymax
-    nodeBndbox = doc.createElement("bndbox")
-    nodeXmin = doc.createElement("xmin")
-    nodeXmin.appendChild(doc.createTextNode(str(a[0])))
-    nodeYmin = doc.createElement("ymin")
-    nodeYmin.appendChild(doc.createTextNode(str(a[1])))
-    nodeXmax = doc.createElement("xmax")
-    nodeXmax.appendChild(doc.createTextNode(str(a[2])))
-    nodeYmax = doc.createElement("ymax")
-    nodeYmax.appendChild(doc.createTextNode(str(a[3])))
-
-    # 将子节点添加到父节点下
-    nodeSize.appendChild(nodeWidth)
-    nodeSize.appendChild(nodeHeight)
-
-    nodeObject.appendChild(nodeName)
-    nodeObject.appendChild(nodeBndbox)
-
-    nodeBndbox.appendChild(nodeXmin)
-    nodeBndbox.appendChild(nodeYmin)
-    nodeBndbox.appendChild(nodeXmax)
-    nodeBndbox.appendChild(nodeYmax)
-
-    # 将父节点添加到根节点下
-    root.appendChild(nodeFolder)
-    root.appendChild(nodeFilename)
-    root.appendChild(nodePath)
-    root.appendChild(nodeSize)
-    root.appendChild(nodeObject)
-
-    # 开始写xml文档
-    fp = open(filename, 'w')
-    doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
-
-
-
-
-# def gen_xml():
-#   global a
+# def GenerateXML(filename):
+#     global a
+#     a = []
+#     # 在内存中创建一个空的文档
+#     doc = xml.dom.minidom.Document()
+#     # 创建一个根节点Managers对象
+#     root = doc.createElement('annotation')
 #
-#   GenerateXML(r'Resources\Xml12345.xml')
+#     # 将根节点添加到文档对象中
+#     doc.appendChild(root)
+#
+#     # 根节点Annotation和子节点Folder,Filename,path
+#     nodeFolder = doc.createElement("folder")
+#     nodeFolder.appendChild(doc.createTextNode("Folder Name"))
+#     nodeFilename = doc.createElement("filename")
+#     nodeFilename.appendChild(doc.createTextNode("File Name"))
+#     nodePath = doc.createElement("path")
+#     nodePath.appendChild(doc.createTextNode("Path"))
+#
+#     # 父节点Size和子节点Width,Height
+#     nodeSize = doc.createElement("Size")
+#     nodeWidth = doc.createElement("Width")
+#     nodeWidth.appendChild(doc.createTextNode('400'))
+#     nodeHeight = doc.createElement("Height")
+#     nodeHeight.appendChild(doc.createTextNode('300'))
+#
+#     # 父节点Object和子节点Name(label),Bndbox
+#     nodeObject = doc.createElement("object")
+#     nodeName = doc.createElement("name")
+#     nodeName.appendChild(doc.createTextNode('label'))
+#
+#     # 父节点Bndbox和子节点Xmin,Ymin,Xmax,Ymax
+#     nodeBndbox = doc.createElement("bndbox")
+#     nodeXmin = doc.createElement("xmin")
+#     nodeXmin.appendChild(doc.createTextNode(str(a[0])))
+#     nodeYmin = doc.createElement("ymin")
+#     nodeYmin.appendChild(doc.createTextNode(str(a[1])))
+#     nodeXmax = doc.createElement("xmax")
+#     nodeXmax.appendChild(doc.createTextNode(str(a[2])))
+#     nodeYmax = doc.createElement("ymax")
+#     nodeYmax.appendChild(doc.createTextNode(str(a[3])))
+#
+#     # 将子节点添加到父节点下
+#     nodeSize.appendChild(nodeWidth)
+#     nodeSize.appendChild(nodeHeight)
+#
+#     nodeObject.appendChild(nodeName)
+#     nodeObject.appendChild(nodeBndbox)
+#
+#     nodeBndbox.appendChild(nodeXmin)
+#     nodeBndbox.appendChild(nodeYmin)
+#     nodeBndbox.appendChild(nodeXmax)
+#     nodeBndbox.appendChild(nodeYmax)
+#
+#     # 将父节点添加到根节点下
+#     root.appendChild(nodeFolder)
+#     root.appendChild(nodeFilename)
+#     root.appendChild(nodePath)
+#     root.appendChild(nodeSize)
+#     root.appendChild(nodeObject)
+#
+#     # 开始写xml文档
+#     fp = open(filename, 'w')
+#     doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
+
+
+
+
+def gen_xml():
+  global a
+
+  GenerateXML(r'Resources\Xml12345.xml')
 
 
 #--------------------------------------------------------------------

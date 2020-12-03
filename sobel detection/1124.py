@@ -10,7 +10,10 @@ imgSrc = None       # source image loaded using OpenCV
 imgSrcPyg = None    # source image converted to PyGame
 imgOut = None       # generated image (from source) using OpenCV routine
 imgOutPyg = None    # pygame-version of imgOut (for display only)
-imgOutpyg2 = None   # pygame-version of imgOutPyg of box
+imgOutPyg2 = None   # pygame-version of imgOutPyg of box
+opBounding = False
+
+
 
 # 'global' variables used by this app
 scrW = 1240 # display width
@@ -29,7 +32,7 @@ imgId = 0
 imgFilename = ['Ahw0247', 'Ahw0155', 'Chw0003']
 
 def load_img():
-  global imgPath, imgSrc, imgSrcPyg, imgOutPyg2,imgId
+  global imgPath, imgSrc, imgSrcPyg, imgOutPyg, imgOutPyg2, imgId, opBounding
   imgPath = 'Resources/' + imgFilename[imgId] + '.png'
   imgId = (imgId+1) % len(imgFilename)
   imgSrc = cv.imread(imgPath)
@@ -37,6 +40,7 @@ def load_img():
   imgOut = None
   imgOutPyg = None
   imgOutPyg2 = None
+  opBounding = False
 
 
 def game_loop():
@@ -93,7 +97,7 @@ def button_check(info, event):
 
     text, text_rect, rect, ic, ac, action, hover = info
 
-    if event.type ==pygame.MOUSEBUTTONDOWN:
+    if event.type ==pygame.MOUSEMOTION:
         # hover = True/False
         info[-1] = rect.collidepoint(event.pos)
 
@@ -170,7 +174,10 @@ def getContours():
   cv.imwrite('Resources/002_new.png', imgSrc)
 
 def Bounding():
-  global imgOutPyg2
+  global imgOutPyg2, opBounding
+  if opBounding:
+    return
+  opBounding = True
   imgGray = cv.cvtColor(imgSrc, cv.COLOR_BGR2GRAY)
   imgBlur = cv.GaussianBlur(imgGray, (5, 5), 1)
   imgCanny = cv.Canny(imgBlur, 50, 50)

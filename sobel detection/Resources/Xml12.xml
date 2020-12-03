@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<annotation>
+		<folder>Folder Name</folder>
+		<filename>File Name</filename>
+		<path>Path</path>
+		<Size>
+			<Width>400</Width>
+			<Height>300</Height>
+		</Size>
+		<object>
+			<name>label</name>
+			<bndbox>
+				<xmin>[]</xmin>
+				<xmin>[]</xmin>
+				<xmin>[]</xmin>
+				<xmin>[]</xmin>
+			</bndbox>
+		</object>
+	</annotation>
