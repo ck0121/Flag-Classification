@@ -101,7 +101,7 @@ def create_data_set(*cores):
 
 
 
-k = 4
+k = 6
 ds = create_data_set((0,0,2500), (0,2,2500), (2,0,2500), (2,2,2500))
 
 t0 = time.time()
